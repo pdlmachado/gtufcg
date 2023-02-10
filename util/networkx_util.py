@@ -115,11 +115,12 @@ def read_edges (G,listcsv,esourceid,etargetid,weightid):
     source = listcsv[l][source_index]
     target = listcsv[l][target_index]
     if type (G) is nx.classes.multigraph.MultiGraph:
-      G.add_edge(source,target,G.number_of_edges(source,target)+1)
+      key = G.number_of_edges(source,target)+1
+      G.add_edge(source,target,key)
       for h in range(len(headers)):
-        G[source][target][headers[h]] = listcsv[l][h]
+        G[source][target][key][headers[h]] = listcsv[l][h]
       if weight_index != -1:
-        G[source][target]['weight'] = listcsv[l][weight_index]
+        G[source][target][key]['weight'] = listcsv[l][weight_index]
     else:
       G.add_edge(source,target)
       for h in range(len(headers)):
