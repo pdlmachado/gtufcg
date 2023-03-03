@@ -73,8 +73,8 @@ Parâmetros:
 """
 import csv
 def read_multiple_CSV(G,
-                      vfilename,vid,
-                      efilename,esourceid,etargetid,weightid='',
+                      vfilename='',vid='',
+                      efilename='',esourceid='',etargetid='',weightid='',
                       delimiter=','):
   # Vertices
   listcsvV = []
@@ -86,13 +86,14 @@ def read_multiple_CSV(G,
   viddict = {}
   read_vertices(G,listcsvV,vid)
   # Arestas
-  listcsvE = []
-  with open(efilename, newline='') as f:
-    reader = csv.reader(f,delimiter=delimiter)    
-    for row in reader:
-      listcsvE.append(row)
-  f.close()
-  read_edges(G,listcsvE,esourceid,etargetid,weightid)
+  if efilename != '':
+    listcsvE = []
+    with open(efilename, newline='') as f:
+      reader = csv.reader(f,delimiter=delimiter)    
+      for row in reader:
+        listcsvE.append(row)
+    f.close()
+    read_edges(G,listcsvE,esourceid,etargetid,weightid)
 
 def read_vertices(G,listcsv,vid):  
   headers = listcsv[0]
