@@ -46,6 +46,8 @@ def abc():
 
 def associate_astronauts (list_a):
     # Escreva aqui o seu código
+    if list_a is None:
+        return None
     G = nx.Graph()
     for i in range(len(list_a)):
         f,l,c = list_a[i]
