@@ -40,29 +40,22 @@ Para o exemplo abaixo, as seguintes duplas podem realizar a viagem:
 """
 
 import networkx as nx
-from util.networkx_util import read_multiple_CSV, draw_graph
 
-def associate_astronauts (G):
+def abc():
+    return 0
+
+def associate_astronauts (list_a):
     # Escreva aqui o seu código
+    G = nx.Graph()
+    for i in range(len(list_a)):
+        f,l,c = list_a[i]
+        G.add_node(i,first_name=f,last_name=l,country=c)
     for v in G.nodes:
         for u in G.nodes:
             if (G.nodes[v]['country'] != G.nodes[u]['country']):
                 if not G.has_edge(u,v):
                     G.add_edge(u,v)
-##
-# Ambiente para Testes Manuais
-filename = "datasets/astronauta.csv"
-G = nx.Graph()
-# Criando os vértices do grafo a partir do arquivo CSV
-read_multiple_CSV(G,filename,vid="last_name")
-# Invocando a função
-associate_astronauts(G)
-print(G.nodes)
-# Saída esperada: (não necessariamente na mesma ordem)
-# ['Shepstone', 'Stoak', 'Anselm', 'Thireau', 'Caset', 'Fearnyough', 'Brazener', 'Drohane', 'Pollett', 'Duddell']
-print(G.edges)
-# Saída esperada: (não necessariamente na mesma ordem)
-['Shepstone', 'Stoak', 'Anselm', 'Thireau', 'Caset', 'Fearnyough', 'Brazener', 'Drohane', 'Pollett', 'Duddell']
-[('Shepstone', 'Anselm'), ('Shepstone', 'Fearnyough'), ('Stoak', 'Anselm'), ('Stoak', 'Fearnyough'), ('Anselm', 'Thireau'), ('Anselm', 'Caset'), ('Anselm', 'Brazener'), ('Anselm', 'Drohane'), ('Anselm', 'Pollett'), ('Anselm', 'Duddell'), ('Thireau', 'Fearnyough'), ('Caset', 'Fearnyough'), ('Fearnyough', 'Brazener'), ('Fearnyough', 'Drohane'), ('Fearnyough', 'Pollett'), ('Fearnyough', 'Duddell')]
-draw_graph(G,nx.spring_layout(G))
+    return G
+                    
+
 
