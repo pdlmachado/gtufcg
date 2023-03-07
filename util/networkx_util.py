@@ -79,9 +79,9 @@ def read_multiple_CSV(G,
   # Vertices
   listcsvV = []
   with open(vfilename, newline='') as f:
-    reader = csv.reader(f,delimiter=delimiter)    
-    for row in reader:
-      listcsvV.append(row)
+      reader = csv.reader(f,delimiter=delimiter)    
+      for row in reader:
+        listcsvV.append(row)
   f.close()
   viddict = {}
   read_vertices(G,listcsvV,vid)
