@@ -40,6 +40,7 @@ Para o exemplo abaixo, as seguintes duplas podem realizar a viagem:
 """
 
 import networkx as nx
+from util.networkx_util import draw_graph
 
 def abc():
     return 0
@@ -58,6 +59,4 @@ def associate_astronauts (list_a):
                 if not G.has_edge(u,v):
                     G.add_edge(u,v)
     return G
-                    
-
 
