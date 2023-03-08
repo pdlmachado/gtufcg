@@ -25,6 +25,3 @@ identificar os candidatos.
 
 import networkx as nx
 
-def insep_blocks (G,limiar):
-    list_cycles = nx.cycle_basis(G)
-    return list_cycles
