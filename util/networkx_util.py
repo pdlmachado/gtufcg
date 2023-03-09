@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 """# Draw """ 
 
 def draw_graph(G,pos,node_labels=None,edge_labels=None,
-                     node_color="cyan",node_size=500):
+                     node_color="cyan",node_size=500,
+                     edge_color="gray"):
   nx.draw_networkx_nodes(G,pos, node_color=node_color, node_size=node_size)
   if node_labels is None:
     nx.draw_networkx_labels(G,pos)
@@ -30,7 +31,7 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
       ax.annotate("",
                 xy=pos[e[0]], xycoords='data',
                 xytext=pos[e[1]], textcoords='data',
-                arrowprops=dict(arrowstyle="-|>", color="black",
+                arrowprops=dict(arrowstyle="-|>", color=edge_color,
                                 shrinkA=11, shrinkB=11,
                                 patchA=None, patchB=None,
                                 connectionstyle="arc3,rad=rrr".replace('rrr',str(0.3*e[2])),
@@ -40,18 +41,20 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
       ax.annotate("",
                 xy=pos[e[0]], xycoords='data',
                 xytext=pos[e[1]], textcoords='data',
-                arrowprops=dict(arrowstyle="-", color="black",
+                arrowprops=dict(arrowstyle="-", color=edge_color,
                                 shrinkA=11, shrinkB=11,
                                 patchA=None, patchB=None,
                                 connectionstyle="arc3,rad=rrr".replace('rrr',str(0.3*e[2])),
                                 ),
       )
-  nx.draw_networkx_edges(G,pos,arrows=True,edgelist=[e for e in G.edges if e in notelist])
+  nx.draw_networkx_edges(G,pos,arrows=True, edge_color=edge_color,
+                         edgelist=[e for e in G.edges if e in notelist])
   if edge_labels is None:
     pass
   else:
     if elist == []:
-      nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
+      nx.draw_networkx_edge_labels(G,pos,font_color=edge_color,
+                                   edge_labels=edge_labels)
   plt.axis(False)
   plt.show()
 

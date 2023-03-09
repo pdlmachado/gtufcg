@@ -24,4 +24,32 @@ identificar os candidatos.
 """
 
 import networkx as nx
+from util.networkx_util import draw_graph
 
+def insep_blocks (G,limiar):
+    if G is None or limiar is None or limiar < 0:
+        return None
+    list_cycles = []
+    for c in filter(lambda c : len(c) == 3, nx.cycle_basis(G)):
+        insep = True
+        for i in range(3):
+            for j in range(i+1,3):
+                if G[c[i]][c[j]]['weight'] > limiar:
+                    insep = False
+        if insep:
+            list_cycles.append(c)
+    return list_cycles
+
+def example_Q2(): 
+    # Importando o grafo, pesos são labels das arestas
+    G = nx.read_graphml('graphs\s-u-w-cy-sc-p-03.graphml')
+    for s,t in G.edges:
+        G[s][t]['weight'] = int(G[s][t]['label'])
+    # Invocando a função
+    iblocks = insep_blocks(G,7)
+    print(f"Blocos Inseparáveis com limiar 7: {iblocks}")
+    # Saída Esperada: [['n3', 'n5', 'n4'], ['n6', 'n5', 'n4'], ['n1', 'n0', 'n2']]
+    iblocks = insep_blocks(G,9)
+    print(f"Blocos Inseparáveis com limiar 9: {iblocks}")
+    # Saída Esperada: [['n5', 'n6', 'n7'], ['n5', 'n4', 'n6'], ['n1', 'n3', 'n4'], ['n5', 'n3', 'n4'], ['n1', 'n2', 'n4'], ['n1', 'n0', 'n2']]
+    draw_graph(G,nx.spring_layout(G),edge_labels=nx.get_edge_attributes(G,'weight'))
