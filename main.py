@@ -11,6 +11,8 @@ from util.networkx_util import read_multiple_CSV, draw_graph
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # Questão 01
     example_Q1()
+    # Questão 02
     example_Q2()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
