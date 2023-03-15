@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 def draw_graph(G,pos,node_labels=None,edge_labels=None,
                      node_color="cyan",node_size=500,
-                     edge_color="gray"):
+                     edge_color="gray",
+                     width=8,height=5):
   nx.draw_networkx_nodes(G,pos, node_color=node_color, node_size=node_size)
   if node_labels is None:
     nx.draw_networkx_labels(G,pos)
@@ -56,6 +57,7 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
       nx.draw_networkx_edge_labels(G,pos,font_color=edge_color,
                                    edge_labels=edge_labels)
   plt.axis(False)
+  plt.rcParams['figure.figsize'] = [width,height]
   plt.show()
 
 """# Import"""
