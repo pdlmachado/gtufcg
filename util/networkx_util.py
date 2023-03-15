@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def draw_graph(G,pos,node_labels=None,edge_labels=None,
                      node_color="cyan",node_size=500,
                      edge_color="gray",
-                     width=8,height=5,
+                     width=10,height=10,
                      nset=None,nsetcolor="red"):
   nx.draw_networkx_nodes(G,pos, node_color=node_color, node_size=node_size)
   if nset is not None:
