@@ -12,8 +12,8 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
                      width=8,height=5,
                      nset=None,nsetcolor="red"):
   nx.draw_networkx_nodes(G,pos, node_color=node_color, node_size=node_size)
-  if nset != []:
-    nx.draw_networkx_nodes(G,pos, node_color=nsetcolor, node_size=node_size)
+  if nset is not None:
+    nx.draw_networkx_nodes(G,pos, nodelist=nset, node_color=nsetcolor, node_size=node_size)
   if node_labels is None:
     nx.draw_networkx_labels(G,pos)
   else:
