@@ -15,8 +15,7 @@ if __name__ == '__main__':
     # example_Q1()
     # Questão 02
     # example_Q2()
-    nexample="les_miserables_graph"
-    layout = "spring_layout"
+
     BCGraph = nx.complete_multipartite_graph(3, 4)
     X, Y = nx.bipartite.sets(BCGraph)
     draw_graph(BCGraph, nx.bipartite_layout(BCGraph, X),
