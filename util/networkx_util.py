@@ -10,10 +10,13 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
                      node_color="cyan",node_size=500,
                      edge_color="gray",
                      width=8,height=5,
-                     nset=None,nsetcolor="red"):
-  nx.draw_networkx_nodes(G,pos, node_color=node_color, node_size=node_size)
-  if nset is not None:
-    nx.draw_networkx_nodes(G,pos, nodelist=nset, node_color=nsetcolor, node_size=node_size)
+                     nset=[],nsetcolor=[],nsetlabel=[],
+                     eset=[],esetcolor=[],esetlabel=[]):
+  if nset is not []:
+    for i in range(len(nset)):
+      nx.draw_networkx_nodes(G,pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size)
+  else:
+    nx.draw_networkx_nodes(G, pos, node_color=node_color, node_size=node_size)
   if node_labels is None:
     nx.draw_networkx_labels(G,pos)
   else:
