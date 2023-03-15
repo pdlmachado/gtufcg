@@ -9,15 +9,16 @@ from src.Q02 import insep_blocks, example_Q2
 from util.networkx_util import read_multiple_CSV, draw_graph
 
 
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # Questão 01
     # example_Q1()
     # Questão 02
     # example_Q2()
-
-    BCGraph = nx.complete_multipartite_graph(3, 4)
-    X, Y = nx.bipartite.sets(BCGraph)
-    draw_graph(BCGraph, nx.bipartite_layout(BCGraph, X),
-               nset=[X, Y], nsetcolor=["blue", "green"])
+    import matplotlib.pyplot as plt
+    size = 8
+    CGraph = nx.complete_graph(size)
+    draw_graph(CGraph, nx.kamada_kawai_layout(CGraph),
+               node_color=range(size),nmap=plt.cm.YlGn)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
