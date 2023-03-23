@@ -12,7 +12,8 @@ import matplotlib.patches as mpatches
 #   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
 #   node_color, node_size, nmap - cor, tamanho e mapa de cores para vértices (Ex: nmap = plt.cm.YlGn)
 #        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
-#   edge_color, emap - cor e mapa de cores para arestas (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
+#   edge_color, arrow_size, emap - cor, tamanho da seta e mapa de cores para arestas
+#               (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
 #        Se emap não for None, edge_color tem que ser um array de números inteiros que indexam o map para cada arestas
 #   nset, nsetcolor, nsetlabel - definem grupos de vértices que terão cores diferentes
 #      nset - lista de lista de vértices
@@ -29,7 +30,7 @@ import matplotlib.patches as mpatches
 def draw_graph(G,pos,title="",
                  node_labels=None,edge_labels=None,
                  node_color="cyan", node_size=500, nmap=None,
-                 edge_color="gray", emap=None,
+                 edge_color="gray", arrow_size=15, emap=None,
                  width=8, height=5,
                  nset=[], nsetcolor=[], nsetlabel=[],
                  eset=[], esetcolor=[], esetlabel=[]):
@@ -81,12 +82,15 @@ def draw_graph(G,pos,title="",
       )
   # Desenhando loops simples e links
   if eset == []:
-    nx.draw_networkx_edges(G,pos,arrows=True, edge_color=edge_color,edge_cmap=emap,
+    nx.draw_networkx_edges(G, pos,
+                           arrows=True, arrowsize=arrow_size,
+                           edge_color=edge_color, edge_cmap=emap,
                            edgelist=[e for e in G.edges if e in notelist])
   else:
     handles = []
     for i in range(len(eset)):
-      nx.draw_networkx_edges(G, pos, arrows=True, edge_color=esetcolor[i],
+      nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
+                             edge_color=esetcolor[i],
                              edgelist=eset[i])
       handles.append(mpatches.Patch(color=esetcolor[i], label=esetlabel[i]))
     ax.legend(handles=handles)
