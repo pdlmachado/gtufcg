@@ -3,25 +3,49 @@
 # Importando pacotes
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
-"""# Draw """ 
+"""# draw_graph """
+# Desenha um grafo de tipo qualquer
+# Parâmetros:
+#   G, p, title - grafo, layout, título
+#   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
+#   node_color, node_size, nmap - cor, tamanho e mapa de cores para vértices (Ex: nmap = plt.cm.YlGn)
+#        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
+#   edge_color, emap - cor e mapa de cores para arestas (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
+#        Se emap não for None, edge_color tem que ser um array de números inteiros que indexam o map para cada arestas
+#   nset, nsetcolor, nsetlabel - definem grupos de vértices que terão cores diferentes
+#      nset - lista de lista de vértices
+#      nsetcolor - lista de cores, uma para cada grupo definido em nset
+#      nsetlabel - lista de labels, um para cada grupo definido em nset
+#   eset, esetcolor, esetlabel - definem grupos de arestas que terão cores diferentes (apenas para links e loops)
+#      eset - lista de lista de arestas
+#      esetcolor - lista de cores, uma para cada grupo definido em nset
+#      esetlabel - lista de labels, um para cada grupo definido em nset
+# Referências:
+# https://matplotlib.org/stable/gallery/color/colormap_reference.html
+# https://matplotlib.org/stable/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py
 
-def draw_graph(G,pos,node_labels=None,edge_labels=None,
-                     node_color="cyan", node_size=500, nmap=None,
-                     edge_color="gray", emap=None,
-                     width=8, height=5,
-                     nset=[], nsetcolor=[], nsetlabel=[],
-                     eset=[], esetcolor=[], esetlabel=[]):
+def draw_graph(G,pos,title="",
+                 node_labels=None,edge_labels=None,
+                 node_color="cyan", node_size=500, nmap=None,
+                 edge_color="gray", emap=None,
+                 width=8, height=5,
+                 nset=[], nsetcolor=[], nsetlabel=[],
+                 eset=[], esetcolor=[], esetlabel=[]):
+  ax = plt.gca()
   if nset == []:
-    nodes = nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
+    nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
   else:
+    handles = []
     for i in range(len(nset)):
       nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], label=nsetlabel[i], node_size=node_size)
+      handles.append(mpatches.Patch(color=nsetcolor[i], label=nsetlabel[i]))
+    ax.legend(handles=handles)
   if node_labels is None:
     nx.draw_networkx_labels(G, pos)
   else:
     nx.draw_networkx_labels(G,pos,labels=node_labels)
-  ax = plt.gca()
   v = list(G.nodes)
   elist = [] # Arestas paralelas
   notelist = [] # Links
@@ -56,8 +80,16 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
                                 ),
       )
   # Desenhando loops simples e links
-  nx.draw_networkx_edges(G,pos,arrows=True, edge_color=edge_color,
-                         edgelist=[e for e in G.edges if e in notelist])
+  if eset == []:
+    nx.draw_networkx_edges(G,pos,arrows=True, edge_color=edge_color,edge_cmap=emap,
+                           edgelist=[e for e in G.edges if e in notelist])
+  else:
+    handles = []
+    for i in range(len(eset)):
+      nx.draw_networkx_edges(G, pos, arrows=True, edge_color=esetcolor[i],
+                             edgelist=eset[i])
+      handles.append(mpatches.Patch(color=esetcolor[i], label=esetlabel[i]))
+    ax.legend(handles=handles)
   # Desenhando edge_labels
   if edge_labels is None:
     pass
@@ -65,6 +97,7 @@ def draw_graph(G,pos,node_labels=None,edge_labels=None,
     if elist == []:
       nx.draw_networkx_edge_labels(G,pos,font_color=edge_color,
                                    edge_labels=edge_labels)
+  plt.title(title)
   plt.axis(False)
   plt.rcParams['figure.figsize'] = [width,height]
   plt.show()
@@ -93,7 +126,7 @@ def read_multiple_CSV(G,
   # Vertices
   listcsvV = []
   with open(vfilename, newline='') as f:
-      reader = csv.reader(f,delimiter=delimiter)    
+      reader = csv.reader(f,delimiter=delimiter)
       for row in reader:
         listcsvV.append(row)
   f.close()
@@ -103,13 +136,13 @@ def read_multiple_CSV(G,
   if efilename != '':
     listcsvE = []
     with open(efilename, newline='') as f:
-      reader = csv.reader(f,delimiter=delimiter)    
+      reader = csv.reader(f,delimiter=delimiter)
       for row in reader:
         listcsvE.append(row)
     f.close()
     read_edges(G,listcsvE,esourceid,etargetid,weightid)
 
-def read_vertices(G,listcsv,vid):  
+def read_vertices(G,listcsv,vid):
   headers = listcsv[0]
   vertex_index = headers.index(vid)
   for l in range(1,len(listcsv)):
