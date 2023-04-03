@@ -17,6 +17,7 @@ import matplotlib.patches as mpatches
 #   edge_color, arrow_size, emap - cor, tamanho da seta e mapa de cores para arestas
 #               (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
 #        Se emap não for None, edge_color tem que ser um array de números inteiros que indexam o map para cada arestas
+#   font_size, font_color - tamanho e cor da fonte utilizada para os vértices
 #   nset, nsetcolor, nsetlabel - definem grupos de vértices que terão cores diferentes
 #      nset - lista de lista de vértices
 #      nsetcolor - lista de cores, uma para cada grupo definido em nset
@@ -32,6 +33,7 @@ import matplotlib.patches as mpatches
 def draw_graph(G, pos, title="",
                node_labels=None, edge_labels=None,
                node_color="cyan", node_size=500, nmap=None,
+               font_size=12,font_color="black",
                edge_color="gray", arrow_size=15, emap=None,
                width=8, height=5,
                nset=[], nsetcolor=[], nsetlabel=[],
@@ -47,9 +49,9 @@ def draw_graph(G, pos, title="",
             handles.append(mpatches.Patch(color=nsetcolor[i], label=nsetlabel[i]))
         ax.legend(handles=handles)
     if node_labels is None:
-        nx.draw_networkx_labels(G, pos)
+        nx.draw_networkx_labels(G, pos, font_size=font_size, font_color=font_color)
     else:
-        nx.draw_networkx_labels(G, pos, labels=node_labels)
+        nx.draw_networkx_labels(G, pos, labels=node_labels, font_size=font_size, font_color=font_color)
     v = list(G.nodes)
     elist = []  # Arestas paralelas
     notelist = []  # Links
