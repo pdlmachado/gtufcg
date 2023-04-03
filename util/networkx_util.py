@@ -105,6 +105,7 @@ def draw_graph(G, pos, title="",
     else:
         if elist == [] and type(G) is not nx.classes.multigraph.MultiGraph and type(G) is not nx.classes.multidigraph.MultiDiGraph:
             nx.draw_networkx_edge_labels(G, pos, font_color=edge_color,
+                                         font_size=font_size-2,
                                          edge_labels=edge_labels)
     plt.title(title)
     plt.axis(False)
