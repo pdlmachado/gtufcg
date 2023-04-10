@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches
 # Parâmetros:
 #   G, p, title - grafo, layout, título
 #   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
-#   node_color, node_size, nmap - cor, tamanho e mapa de cores para vértices (Ex: nmap = plt.cm.YlGn)
+#   node_color, node_size, nmap, node_order - cor, tamanho, mapa e ordem de cores para vértices (Ex: nmap = plt.cm.YlGn)
 #        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
 #   edge_color, arrow_size, emap - cor, tamanho da seta e mapa de cores para arestas
 #               (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
