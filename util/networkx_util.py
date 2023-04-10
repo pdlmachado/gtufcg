@@ -104,7 +104,8 @@ def draw_graph(G, pos, title="",
                                edge_color=edge_color, edge_cmap=emap,
                                edgelist=[e for e in G.edges if e in notelist])
     elif esetlabel == []:
-        nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
+        for i in range(len(eset)):
+            nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
                                    edge_color=esetcolor[i],
                                    edgelist=eset[i])
     else:
