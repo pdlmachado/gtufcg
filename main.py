@@ -18,7 +18,12 @@ if __name__ == '__main__':
     #           nset=[[0,1],[2,3],[4,5],[6,7]],nsetcolor=["blue","orange","red","green"],nsetlabel=['l1','l2','l3','l4'])
     #draw_graph(CGraph, nx.kamada_kawai_layout(CGraph), title="K3",
     #           eset=[[(0,1)],[(0,2),(1,2)]], esetcolor=["red","green"], esetlabel=['l1','l2'])
-
+    from matplotlib import colors
     D1 = nx.read_graphml("graphs/s-d-cy-wc-02.graphml")
-    draw_graph(D1,nx.kamada_kawai_layout(D1),font_size=10,font_color="red")
+    print(D1.nodes)
+    node_list = sorted(list(D1.nodes),reverse=True)
+    print(node_list)
+    print(list(colors.TABLEAU_COLORS.keys())[0:D1.number_of_nodes()])
+    draw_graph(D1, nx.kamada_kawai_layout(D1), node_list=node_list,
+               node_color=list(colors.TABLEAU_COLORS.keys())[0:D1.number_of_nodes()],font_size=10, font_color="red")
 

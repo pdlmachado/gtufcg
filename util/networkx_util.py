@@ -31,7 +31,7 @@ import matplotlib.patches as mpatches
 # https://matplotlib.org/stable/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py
 
 def draw_graph(G, pos, title="",
-               node_labels=None, edge_labels=None,
+               node_list=None, node_labels=None, edge_labels=None,
                node_color="cyan", node_size=500, nmap=None,
                font_size=12,font_color="black",
                edge_color="gray", arrow_size=15, emap=None,
@@ -40,7 +40,10 @@ def draw_graph(G, pos, title="",
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
     if nset == []:
-        nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
+        if node_list is None:
+            nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
+        else:
+            nx.draw_networkx_nodes(G, pos, nodelist=node_list, node_color=node_color, cmap=nmap, node_size=node_size)
     else:
         handles = []
         for i in range(len(nset)):
