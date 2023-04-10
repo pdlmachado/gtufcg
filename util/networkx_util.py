@@ -4,6 +4,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from matplotlib.cm import ScalarMappable
+from matplotlib import colors
 
 """# draw_graph """
 
@@ -14,6 +16,8 @@ import matplotlib.patches as mpatches
 #   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
 #   node_color, node_size, nmap, node_order - cor, tamanho, mapa e ordem de cores para vértices (Ex: nmap = plt.cm.YlGn)
 #        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
+#   vmin, vmax - valor máximo e mínimo para representar no colorbar. 
+#        Se vmin,vmax = None ou nmax = None, não será criado um colorbar.
 #   edge_color, arrow_size, emap - cor, tamanho da seta e mapa de cores para arestas
 #               (Ex: emap = plt.cm.YlGn) (emap apenas para links e loops)
 #        Se emap não for None, edge_color tem que ser um array de números inteiros que indexam o map para cada arestas
@@ -32,7 +36,8 @@ import matplotlib.patches as mpatches
 
 def draw_graph(G, pos, title="",
                node_labels=None, edge_labels=None,
-               node_color="cyan", node_size=500, nmap=None, node_order=None,
+               node_color="cyan", node_size=500, nmap=None, 
+               node_order=None,vmin=None,vmax=None,
                font_size=12,font_color="black",
                edge_color="gray", arrow_size=15, emap=None,
                width=8, height=5,
@@ -113,8 +118,11 @@ def draw_graph(G, pos, title="",
     plt.title(title)
     plt.axis(False)
     plt.rcParams['figure.figsize'] = [width, height]
+    if nmap is not None and vmin is not None and vmax is not None:
+        cnorm = colors.Normalize(vmin,vmax)
+        sm = ScalarMappable(cnorm,nmap)
+        plt.colorbar(sm)
     plt.show()
-
 
 """# Import"""
 

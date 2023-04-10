@@ -26,7 +26,8 @@ if __name__ == '__main__':
     node_list = [ n for (n,k) in sorted(n_degrees.items(), key = lambda x:x[1])]
     print(node_list)
     print(list(colors.TABLEAU_COLORS.keys())[0:D1.number_of_nodes()])
-    draw_graph(D1, nx.kamada_kawai_layout(D1), node_order=node_list,
+    draw_graph(D1, nx.kamada_kawai_layout(D1), node_order=node_list, 
+               vmin = D1.degree(node_list[0]), vmax = D1.degree(node_list[-1]),
                node_color=range(D1.number_of_nodes()),nmap=plt.cm.Purples,
                font_size=10, font_color="red")
 
