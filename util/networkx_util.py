@@ -109,6 +109,7 @@ def draw_graph(G, pos, title="",
                                    edge_color=esetcolor[i],
                                    edgelist=eset[i])
     else:
+        print("Here")
         handles = []
         for i in range(len(eset)):
             nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
