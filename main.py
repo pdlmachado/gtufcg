@@ -19,9 +19,9 @@ if __name__ == '__main__':
     #draw_graph(CGraph, nx.kamada_kawai_layout(CGraph), title="K3",
     #           eset=[[(0,1)],[(0,2),(1,2)]], esetcolor=["red","green"], esetlabel=['l1','l2'])
     from matplotlib import colors
-    D1 = nx.read_graphml("graphs/s-d-cy-wc-02.graphml")
+    D1 = nx.les_miserables_graph() #nx.read_graphml("graphs/s-d-cy-wc-02.graphml")
     print(D1.nodes)
-    n_degrees = {n:D1.in_degree(n)+D1.out_degree(n) for n in D1.nodes}
+    n_degrees = {n:D1.degree(n) for n in D1.nodes}
     print(n_degrees)
     node_list = [ n for (n,k) in sorted(n_degrees.items(), key = lambda x:x[1])]
     print(node_list)
@@ -29,5 +29,5 @@ if __name__ == '__main__':
     draw_graph(D1, nx.kamada_kawai_layout(D1), node_order=node_list, 
                vmin = D1.degree(node_list[0]), vmax = D1.degree(node_list[-1]),
                node_color=range(D1.number_of_nodes()),nmap=plt.cm.Purples,
-               font_size=10, font_color="red")
+               font_size=8, font_color="black",width=20,height=20)
 
