@@ -44,14 +44,13 @@ def draw_graph(G, pos, title="",
                nset=[], nsetcolor=[], nsetlabel=[],
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
-    print(nsetlabel)
-    if not nset:
+    if nset == []:
         if node_order is None:
             nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
         else:
             nx.draw_networkx_nodes(G, pos, nodelist=node_order, node_color=node_color, cmap=nmap, node_size=node_size)
-    elif nsetlabel == []:
-         for i in range(len(nset)):
+    elif not nset == [] and nsetlabel == []:
+        for i in range(len(nset)):
             nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size)
     else:
         handles = []
@@ -109,7 +108,6 @@ def draw_graph(G, pos, title="",
                                    edge_color=esetcolor[i],
                                    edgelist=eset[i])
     else:
-        print("Here")
         handles = []
         for i in range(len(eset)):
             nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
