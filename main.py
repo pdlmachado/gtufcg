@@ -21,9 +21,12 @@ if __name__ == '__main__':
     from matplotlib import colors
     D1 = nx.read_graphml("graphs/s-d-cy-wc-02.graphml")
     print(D1.nodes)
-    node_list = sorted(list(D1.nodes),reverse=True)
+    n_degrees = {n:D1.in_degree(n)+D1.out_degree(n) for n in D1.nodes}
+    print(n_degrees)
+    node_list = [ n for (n,k) in sorted(n_degrees.items(), key = lambda x:x[1])]
     print(node_list)
     print(list(colors.TABLEAU_COLORS.keys())[0:D1.number_of_nodes()])
-    draw_graph(D1, nx.kamada_kawai_layout(D1), node_list=node_list,
-               node_color=list(colors.TABLEAU_COLORS.keys())[0:D1.number_of_nodes()],font_size=10, font_color="red")
+    draw_graph(D1, nx.kamada_kawai_layout(D1), node_order=node_list,
+               node_color=range(D1.number_of_nodes()),nmap=plt.cm.Purples,
+               font_size=10, font_color="red")
 
