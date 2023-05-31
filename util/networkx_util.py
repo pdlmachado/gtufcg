@@ -7,10 +7,12 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 
-def get_edge(g,u,v):
+
+def get_edge(g, u, v):
     for e in g.edges:
         if e[0] == u and e[1] == v or e[0] == v and e[1] == u:
             return e
+
 
 """# draw_graph """
 
@@ -41,28 +43,28 @@ def get_edge(g,u,v):
 
 def draw_graph(G, pos, title="",
                node_labels=None, edge_labels=None,
-               node_color="cyan", node_size=500, nmap=None, 
-               node_order=None,vmin=None,vmax=None,
-               font_size=12,font_color="black",
+               node_color="cyan", node_size=500, nmap=None,
+               node_order=None, vmin=None, vmax=None,
+               font_size=12, font_color="black",
                edge_color="gray", arrow_size=15, emap=None,
                width=8, height=5,
                nset=[], nsetcolor=[], nsetlabel=[],
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
-    if nset == []:
+    if not nset:
         if node_order is None:
             nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
         else:
             nx.draw_networkx_nodes(G, pos, nodelist=node_order, node_color=node_color, cmap=nmap, node_size=node_size)
     elif not nset == [] and nsetlabel == []:
-        comp_nset = [n for n in G.nodes if n not in sum(nset,[])]
+        comp_nset = [n for n in G.nodes if n not in sum(nset, [])]
         if comp_nset:
             nset.append(comp_nset)
         for i in range(len(nset)):
             nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size)
     else:
         handles = []
-        comp_nset = [n for n in G.nodes if n not in sum(nset,[])]
+        comp_nset = [n for n in G.nodes if n not in sum(nset, [])]
         if comp_nset:
             nset.append(comp_nset)
         for i in range(len(nset)):
@@ -113,8 +115,8 @@ def draw_graph(G, pos, title="",
                                arrows=True, arrowsize=arrow_size,
                                edge_color=edge_color, edge_cmap=emap,
                                edgelist=[e for e in G.edges if e in notelist])
-    elif esetlabel == []:
-        comp_eset = [e for e in G.edges if e not in [get_edge(G,x[0],x[1]) for x in sum(eset,[])]]
+    elif not esetlabel:
+        comp_eset = [e for e in G.edges if e not in [get_edge(G, x[0], x[1]) for x in sum(eset, [])]]
         if comp_eset:
             eset.append(comp_eset)
         for i in range(len(eset)):
@@ -124,8 +126,8 @@ def draw_graph(G, pos, title="",
     else:
         handles = []
         print(eset)
-        print([get_edge(G,x[0],x[1]) for x in sum(eset,[])])
-        comp_eset = [e for e in G.edges if e not in [get_edge(G,x[0],x[1]) for x in sum(eset,[])]]
+        print([get_edge(G, x[0], x[1]) for x in sum(eset, [])])
+        comp_eset = [e for e in G.edges if e not in [get_edge(G, x[0], x[1]) for x in sum(eset, [])]]
         if comp_eset:
             eset.append(comp_eset)
         for i in range(len(eset)):
@@ -138,18 +140,20 @@ def draw_graph(G, pos, title="",
     if edge_labels is None:
         pass
     else:
-        if elist == [] and type(G) is not nx.classes.multigraph.MultiGraph and type(G) is not nx.classes.multidigraph.MultiDiGraph:
+        if elist == [] and type(G) is not nx.classes.multigraph.MultiGraph and type(
+                G) is not nx.classes.multidigraph.MultiDiGraph:
             nx.draw_networkx_edge_labels(G, pos, font_color=edge_color,
-                                         font_size=font_size-2,
+                                         font_size=font_size - 2,
                                          edge_labels=edge_labels)
     plt.title(title)
     plt.axis(False)
     plt.rcParams['figure.figsize'] = [width, height]
     if nmap is not None and vmin is not None and vmax is not None:
-        cnorm = colors.Normalize(vmin,vmax)
-        sm = ScalarMappable(cnorm,nmap)
-        plt.colorbar(sm,shrink=0.6)
+        cnorm = colors.Normalize(vmin, vmax)
+        sm = ScalarMappable(cnorm, nmap)
+        plt.colorbar(sm, shrink=0.6)
     plt.show()
+
 
 """# Import"""
 
@@ -181,7 +185,6 @@ def read_multiple_CSV(G,
         for row in reader:
             listcsvV.append(row)
     f.close()
-    viddict = {}
     read_vertices(G, listcsvV, vid)
     # Arestas
     if efilename != '':
