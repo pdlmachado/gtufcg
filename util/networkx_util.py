@@ -30,13 +30,18 @@ def get_edge(g, u, v):
 #        Se emap não for None, edge_color tem que ser um array de números inteiros que indexam o map para cada arestas
 #   font_size, font_color - tamanho e cor da fonte utilizada para os vértices
 #   nset, nsetcolor, nsetlabel - definem grupos de vértices que terão cores diferentes
-#      nset - lista de lista de vértices
-#      nsetcolor - lista de cores, uma para cada grupo definido em nset
-#      nsetlabel - lista de labels, um para cada grupo definido em nset
+#      nset - lista de lista de vértices (listas disjuntas; se um ou mais vértices não foram incluídos,
+#                                         a função adiciona uma lista com estes vértices)
+#      nsetcolor (obrigatório, quando usando nset) -
+#         lista de cores, uma para cada grupo definido em nset (adicione uma cor a mais para o grupo complementar, se existir)
+#      nsetlabel (opcional quando usando nset e nsetcolor) -
+#          lista de labels, um para cada grupo definido em nset (adicione um label a mais para o grupo complementar, se existir)
 #   eset, esetcolor, esetlabel - definem grupos de arestas que terão cores diferentes (apenas para links e loops)
-#      eset - lista de lista de arestas
-#      esetcolor - lista de cores, uma para cada grupo definido em nset
-#      esetlabel - lista de labels, um para cada grupo definido em nset
+#      eset - lista de lista de arestas (listas disjuntas; se arestas não foram incluídos, a função adiciona uma lista com o complemento)
+#      esetcolor (obrigatório quando usando eset) -
+#        lista de cores, uma para cada grupo definido em nset (adicione uma cor a mais para o grupo complementar, se existir)
+#      esetlabel (opcional quando usando eset e esetcolor) -
+#        lista de labels, um para cada grupo definido em nset (adicione um label a mais para o grupo complementar, se existir)
 # Referências:
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html
 # https://matplotlib.org/stable/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py
