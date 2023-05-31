@@ -7,6 +7,11 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 
+def get_edge(g,u,v):
+    for e in g.edges:
+        if e[0] == u and e[1] == v or e[0] == v and e[1] == u:
+            return e
+
 """# draw_graph """
 
 
@@ -50,10 +55,16 @@ def draw_graph(G, pos, title="",
         else:
             nx.draw_networkx_nodes(G, pos, nodelist=node_order, node_color=node_color, cmap=nmap, node_size=node_size)
     elif not nset == [] and nsetlabel == []:
+        comp_nset = [n for n in G.nodes if n not in sum(nset,[])]
+        if comp_nset:
+            nset.append(comp_nset)
         for i in range(len(nset)):
             nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size)
     else:
         handles = []
+        comp_nset = [n for n in G.nodes if n not in sum(nset,[])]
+        if comp_nset:
+            nset.append(comp_nset)
         for i in range(len(nset)):
             nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], label=nsetlabel[i],
                                    node_size=node_size)
@@ -103,12 +114,20 @@ def draw_graph(G, pos, title="",
                                edge_color=edge_color, edge_cmap=emap,
                                edgelist=[e for e in G.edges if e in notelist])
     elif esetlabel == []:
+        comp_eset = [e for e in G.edges if e not in [get_edge(G,x[0],x[1]) for x in sum(eset,[])]]
+        if comp_eset:
+            eset.append(comp_eset)
         for i in range(len(eset)):
             nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
                                    edge_color=esetcolor[i],
                                    edgelist=eset[i])
     else:
         handles = []
+        print(eset)
+        print([get_edge(G,x[0],x[1]) for x in sum(eset,[])])
+        comp_eset = [e for e in G.edges if e not in [get_edge(G,x[0],x[1]) for x in sum(eset,[])]]
+        if comp_eset:
+            eset.append(comp_eset)
         for i in range(len(eset)):
             nx.draw_networkx_edges(G, pos, arrows=True, arrowsize=arrow_size,
                                    edge_color=esetcolor[i],
