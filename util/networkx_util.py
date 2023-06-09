@@ -130,8 +130,8 @@ def draw_graph(G, pos, title="",
                                    edgelist=eset[i])
     else:
         handles = []
-        print(eset)
-        print([get_edge(G, x[0], x[1]) for x in sum(eset, [])])
+        #print(eset)
+        #print([get_edge(G, x[0], x[1]) for x in sum(eset, [])])
         comp_eset = [e for e in G.edges if e not in [get_edge(G, x[0], x[1]) for x in sum([list(x) for x in eset], [])]]
         if comp_eset:
             eset.append(comp_eset)
