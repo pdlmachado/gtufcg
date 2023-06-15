@@ -1,4 +1,4 @@
-import emoji
+from emoji import emojize
 
 def check_answer_int(R,E):
   if R == 0:
