@@ -1,4 +1,3 @@
-!pip install emoji
 import emoji
 
 def check_answer_int(R,E):
