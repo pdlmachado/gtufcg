@@ -17,7 +17,7 @@ if __name__ == '__main__':
     #draw_graph(CGraph, nx.kamada_kawai_layout(CGraph), title="K8",
     #           nset=[[0,1],[2,3],[4,5]],nsetcolor=["blue","orange","red","green"],nsetlabel=['l1','l2','l3','l4'])
     #
-    draw_graph(CGraph, nx.kamada_kawai_layout(CGraph), title="K3",
+    draw_graph(CGraph, layoutid='spring_layout', title="K3",
                eset=[[(0,1)],[(0,2),(1,2)]], esetcolor=["red","green","yellow"], esetlabel=['l1','l2','other'])
     #############
     #from matplotlib import colors
