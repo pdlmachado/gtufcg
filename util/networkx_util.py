@@ -46,6 +46,7 @@ def get_edge(g, u, v):
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html
 # https://matplotlib.org/stable/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py
 
+
 def draw_graph(G, pos=None, title="", layoutid=None,
                node_labels=None, edge_labels=None,
                node_color="cyan", node_size=500, nmap=None,
@@ -56,11 +57,13 @@ def draw_graph(G, pos=None, title="", layoutid=None,
                nset=[], nsetcolor=[], nsetlabel=[],
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
-    if layoutid is not None:
+    if pos is None and layoutid is not None:
         if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
             pos = nx.nx_agraph.pygraphviz_layout(G,layoutid)
         elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout", "spring_layout", "spectral_layout", "spiral_layout", "planar_layout"]:
             pos = eval(f"nx.{layoutid}(G)")
+    elif pos is None:
+        pos = nx.spring_layout(G)
     if not nset:
         if node_order is None:
             nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
