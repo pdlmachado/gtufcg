@@ -59,6 +59,8 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     if layoutid is not None:
         if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
             pos = nx.nx_agraph.pygraphviz_layout(G,layoutid)
+    elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout", "spring_layout", "spectral_layout", "spiral_layout", "planar_layout"]:
+            pos = eval(f"nx.{layoutid}(G)")
     if not nset:
         if node_order is None:
             nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
