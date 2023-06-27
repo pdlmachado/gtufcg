@@ -19,7 +19,7 @@ def get_edge(g, u, v):
 
 # Desenha um grafo de tipo qualquer
 # Parâmetros:
-#   G, p, title - grafo, layout, título
+#   G, pos, title, layoutid - grafo, layout, título, id de um layout (caso deseje que o objeto layout seja criado internamente)
 #   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
 #   node_color, node_size, nmap, node_order - cor, tamanho, mapa e ordem de cores para vértices (Ex: nmap = plt.cm.YlGn)
 #        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
@@ -46,7 +46,7 @@ def get_edge(g, u, v):
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html
 # https://matplotlib.org/stable/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py
 
-def draw_graph(G, pos, title="",
+def draw_graph(G, pos=None, title="", layoutid=None,
                node_labels=None, edge_labels=None,
                node_color="cyan", node_size=500, nmap=None,
                node_order=None, vmin=None, vmax=None,
@@ -56,6 +56,9 @@ def draw_graph(G, pos, title="",
                nset=[], nsetcolor=[], nsetlabel=[],
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
+    if layoutid is not None:
+        if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
+            pos = nx.nx_agraph.pygraphviz_layout(G,layoutid)
     if not nset:
         if node_order is None:
             nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
