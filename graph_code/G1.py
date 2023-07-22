@@ -1,3 +1,4 @@
+import graphviz
 def G1 ():
     G1 = graphviz.Graph('G1', filename="G1", format='png')
     G1.attr(rankdir='LR', size='8,5')
@@ -16,4 +17,3 @@ def G1 ():
     G1.edge('a','d',label='y')
     G1.edge('d','e',label='z')
     G1.view()   
-    
