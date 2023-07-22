@@ -1,5 +1,5 @@
 import graphviz
-def G1 ():
+def create_G1 ():
     G1 = graphviz.Graph('G1', filename="G1", format='png')
     G1.attr(rankdir='LR', size='8,5')
     G1.attr('node', shape='doublecircle')
