@@ -7,14 +7,21 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 
+"""# get_edge """
 
+
+# Retorna uma tupla para uma aresta existente entre dois vértices na ordem que foi considerada
+# para os vértices na criação da aresta
+# O grafo g deve ser simples
 def get_edge(g, u, v):
     for e in g.edges:
         if e[0] == u and e[1] == v or e[0] == v and e[1] == u:
             return e
 
 
-"""# draw_graph """
+"""# Graph Draw """
+
+"""## draw_graph """
 
 
 # Desenha um grafo de tipo qualquer
@@ -59,8 +66,9 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     ax = plt.gca()
     if pos is None and layoutid is not None:
         if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
-            pos = nx.nx_agraph.pygraphviz_layout(G,layoutid)
-        elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout", "spring_layout", "spectral_layout", "spiral_layout", "planar_layout"]:
+            pos = nx.nx_agraph.pygraphviz_layout(G, layoutid)
+        elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout",
+                          "spring_layout", "spectral_layout", "spiral_layout", "planar_layout"]:
             pos = eval(f"nx.{layoutid}(G)")
     elif pos is None:
         pos = nx.spring_layout(G)
@@ -138,8 +146,8 @@ def draw_graph(G, pos=None, title="", layoutid=None,
                                    edgelist=eset[i])
     else:
         handles = []
-        #print(eset)
-        #print([get_edge(G, x[0], x[1]) for x in sum(eset, [])])
+        # print(eset)
+        # print([get_edge(G, x[0], x[1]) for x in sum(eset, [])])
         comp_eset = [e for e in G.edges if e not in [get_edge(G, x[0], x[1]) for x in sum([list(x) for x in eset], [])]]
         if comp_eset:
             eset.append(comp_eset)
@@ -166,6 +174,28 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         sm = ScalarMappable(cnorm, nmap)
         plt.colorbar(sm, shrink=0.6)
     plt.show()
+
+
+"""## get_node_classes """
+# Função que agrupa valores de um dicionário de vértices em n faixas
+# Retorna uma lista de listas com os vértices de cada faixa
+# d - dicionário
+# r - quantidade de faixas
+from math import trunc
+
+
+def get_node_classes(d, r):
+    node_class = [[] for i in range(r)]
+    minimo = min(d.values())
+    máximo = max(d.values())
+    step = (máximo - minimo) / (r)
+    for n in d.keys():
+        if d[n] == máximo:
+            node_class[r - 1].append(n)
+        else:
+            index = trunc((d[n] - minimo) / step)
+            node_class[index].append(n)
+    return minimo, step, node_class
 
 
 """# Import"""
@@ -233,7 +263,7 @@ def read_edges(G, listcsv, esourceid, etargetid, weightid, self_loops, multiple_
     for l in range(1, len(listcsv)):
         source = listcsv[l][source_index]
         target = listcsv[l][target_index]
-        if not self_loops and source == target or not multiple_edges and G.has_edge(source,target):
+        if not self_loops and source == target or not multiple_edges and G.has_edge(source, target):
             pass
         else:
             if type(G) is nx.classes.multigraph.MultiGraph:
