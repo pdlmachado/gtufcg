@@ -33,7 +33,7 @@ def get_edge(g, u, v):
 # Retorna um path qualquer a partir de uma lista de vértices
 # Apenas para multigrafos
 def get_path_edges(g,path):
-  edges = [(path[i],path[i+1],get_edge(g,path[i],path[i+1]) for i in range(len(path)-1)]
+  edges = [(path[i],path[i+1],get_edge(g,path[i],path[i+1])) for i in range(len(path)-1)]
   out = []
   for i in range(len(path)-1):
     u,v,k = edges[i]
