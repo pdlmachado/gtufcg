@@ -7,6 +7,16 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 
+"""# has_parallel_edges """
+
+def has_parallel_edges (G):
+  for u in G.nodes:
+    for v in G.nodes:
+      if G.number_of_edges(u,v) > 1:
+        return True
+  return False
+
+
 """# get_edge """
 
 
