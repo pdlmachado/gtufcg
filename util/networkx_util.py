@@ -27,7 +27,18 @@ def get_edge(g, u, v):
     for e in g.edges:
         if e[0] == u and e[1] == v or e[0] == v and e[1] == u:
             return e
+          
+"""# get_path_edges """
 
+# Retorna um path qualquer a partir de uma lista de vértices
+# Apenas para multigrafos
+def get_path_edges(g,path):
+  edges = [get_edge(g,path[i],path[i+1]) for i in range(len(path)-1)]
+  out = []
+  for i in range(len(path)-1):
+    u,v,k = edges[i]
+    out.append((u,v,k))
+  return out
 
 """# Graph Draw """
 
