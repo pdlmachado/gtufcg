@@ -24,16 +24,16 @@ def has_parallel_edges (G):
 # para os vértices na criação da aresta
 # O grafo g deve ser simples
 def get_edge(g, u, v):
-    for e in g.edges:
-        if e[0] == u and e[1] == v or e[0] == v and e[1] == u:
-            return e
+    for x,y,k in g.edges:
+        if x == u and y == v or x == v and y == u:
+            return k
           
 """# get_path_edges """
 
 # Retorna um path qualquer a partir de uma lista de vértices
 # Apenas para multigrafos
 def get_path_edges(g,path):
-  edges = [get_edge(g,path[i],path[i+1]) for i in range(len(path)-1)]
+  edges = [(path[i],path[i+1],get_edge(g,path[i],path[i+1]) for i in range(len(path)-1)]
   out = []
   for i in range(len(path)-1):
     u,v,k = edges[i]
