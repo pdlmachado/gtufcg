@@ -24,7 +24,7 @@ def has_parallel_edges (G):
 # para os vértices na criação da aresta
 # O grafo g deve ser simples
 def get_edge(g, u, v):
-  if type(G3) is nx.classes.multigraph.MultiGraph:
+  if type(g) is nx.classes.multigraph.MultiGraph:
     for x,y,k in g.edges:
         if x == u and y == v or x == v and y == u:
             return k
