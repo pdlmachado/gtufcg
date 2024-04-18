@@ -1,5 +1,10 @@
 import networkx as nx
 
+"""# get_node_ids """
+# Retorna uma lista com os identificadores de nodes cujo valor do atributo "attr" é "value"
+def get_node_ids (g, attr, value):
+   return [i for i in g.nodes if g.nodes[i][attr]==value]
+
 """# has_parallel_edges """
 
 def has_parallel_edges (G):
