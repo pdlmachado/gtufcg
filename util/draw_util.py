@@ -6,7 +6,20 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
-from util.get_util import get_node_classes
+#from util.get_util import get_node_classes
+
+def get_node_classes(d, r):
+    node_class = [[] for i in range(r)]
+    minimo = min(d.values())
+    máximo = max(d.values())
+    step = (máximo - minimo) / (r)
+    for n in d.keys():
+        if d[n] == máximo:
+            node_class[r - 1].append(n)
+        else:
+            index = trunc((d[n] - minimo) / step)
+            node_class[index].append(n)
+    return minimo, step, node_class
 
 """# Graph Draw """
 
