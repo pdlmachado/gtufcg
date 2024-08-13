@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
+from util.get_util import get_edge
 #from util.get_util import get_node_classes
 
 def get_node_classes(d, r):
