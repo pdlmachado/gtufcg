@@ -6,8 +6,21 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
-from util.get_util import get_edge
-#from util.get_util import get_node_classes
+
+"""# get_edge """
+
+# Retorna uma tupla para uma aresta existente entre dois vértices na ordem que foi considerada
+# para os vértices na criação da aresta
+# O grafo g deve ser simples
+def get_edge(g, u, v):
+  if type(g) is nx.classes.multigraph.MultiGraph:
+    for x,y,k in g.edges:
+        if x == u and y == v or x == v and y == u:
+            return k
+  else:
+    for x,y in g.edges:
+        if x == u and y == v or x == v and y == u:
+            return (x,y)
 
 def get_node_classes(d, r):
     node_class = [[] for i in range(r)]
