@@ -191,15 +191,20 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     plt.show()
 
 # Draw using graphviz
-import graphviz
-def drawgv_graph (g,layoutid,title,components,color_scheme):
+def drawgv_graph (g,name,layoutid='sfdp',title="",
+                  components=None,
+                  color_scheme="accent8",
+                  with_node_labels=False,
+                  with_edge_labels=False,format='png'):
   if nx.is_directed(g):
-    gv = graphviz.Digraph(engine=layoutid)
+    gv = graphviz.Digraph(engine=layoutid,format=format)
   else:
-    gv = graphviz.Graph(engine=layoutid)
+    gv = graphviz.Graph(engine=layoutid, format=format)
   gv.graph_attr['label'] = title
   gv.attr(size="5,4")
   gv.attr(randdir="TB")
+  if components is None:
+    components = [g.nodes]
   color_cycle = cycle(range(1, len(components)+1))
   group_colors = {}
   with gv.subgraph(name='main') as graph:
@@ -210,14 +215,24 @@ def drawgv_graph (g,layoutid,title,components,color_scheme):
       group_name = f'Componente {index + 1}'
       group_colors[group_name] = color
       for node in nodes:
-        graph.node(node, style='filled', fillcolor=color)
+        if with_node_labels:
+          graph.node(node, style='filled', fillcolor=color, label=g.nodes[node]['label'])
+        else:
+          graph.node(node, style='filled', fillcolor=color)
     for e in g.edges:
-      graph.edge(e[0],e[1])
+      if with_edge_labels:
+        graph.edge(e[0],e[1],label=g[e[0]][e[1]][e[2]]['label'])
+      else:
+        graph.edge(e[0],e[1])
+  gv.render(name)
+  img = Image.open(name+'.png')
+  display(img)
   #with gv.subgraph(name='cluster_legend') as legend:
   #  legend.attr(label='Legenda', color='black')
   #  for group, color in group_colors.items():
   #      # Create a node for each legend item
   #      legend.node(group, label=group, style='filled', fillcolor=color)
   return gv
+
 
     
