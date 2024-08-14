@@ -8,6 +8,7 @@ from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 import graphviz
 from itertools import cycle
+from PIL import Image
 
 """# get_edge """
 
