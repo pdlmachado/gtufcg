@@ -7,6 +7,7 @@ import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 import graphviz
+from it import cycle
 
 """# get_edge """
 
