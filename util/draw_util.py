@@ -235,7 +235,6 @@ def drawgv_graph (g,name,layoutid='sfdp',title="",
   #  for group, color in group_colors.items():
   #      # Create a node for each legend item
   #      legend.node(group, label=group, style='filled', fillcolor=color)
-  return gv
 
 
     
