@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors
+import graphviz
 
 """# get_edge """
 
