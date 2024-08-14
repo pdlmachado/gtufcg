@@ -38,8 +38,6 @@ def get_node_classes(d, r):
 """# Graph Draw """
 
 """## draw_graph """
-
-
 # Desenha um grafo de tipo qualquer
 # Parâmetros:
 #   G, pos, title, layoutid - grafo, layout, título, id de um layout (caso deseje que o objeto layout seja criado internamente)
@@ -192,5 +190,34 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         plt.colorbar(sm, shrink=0.6)
     plt.show()
 
+# Draw using graphviz
+import graphviz
+def drawgv_graph (g,layoutid,title,components,color_scheme):
+  if nx.is_directed(g):
+    gv = graphviz.Digraph(engine=layoutid)
+  else:
+    gv = graphviz.Graph(engine=layoutid)
+  gv.graph_attr['label'] = title
+  gv.attr(size="5,4")
+  gv.attr(randdir="TB")
+  color_cycle = cycle(range(1, len(components)+1))
+  group_colors = {}
+  with gv.subgraph(name='main') as graph:
+    graph.attr(label='Grafo', color='black')
+    for index, nodes in enumerate(components):
+      color_index = next(color_cycle)
+      color = f'/{color_scheme}/{color_index}'
+      group_name = f'Componente {index + 1}'
+      group_colors[group_name] = color
+      for node in nodes:
+        graph.node(node, style='filled', fillcolor=color)
+    for e in g.edges:
+      graph.edge(e[0],e[1])
+  #with gv.subgraph(name='cluster_legend') as legend:
+  #  legend.attr(label='Legenda', color='black')
+  #  for group, color in group_colors.items():
+  #      # Create a node for each legend item
+  #      legend.node(group, label=group, style='filled', fillcolor=color)
+  return gv
 
     
