@@ -196,7 +196,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
 # Draw using graphviz
 def drawgv_graph (g,layoutid='sfdp',name="",title="",
                   components=None,
-                  color_scheme="svg",
+                  color_scheme="paired12",
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4):
