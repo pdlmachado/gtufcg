@@ -194,7 +194,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     plt.show()
 
 # Draw using graphviz
-def drawgv_graph (g,name,layoutid='sfdp',title="",
+def drawgv_graph (g,name="",layoutid='sfdp',title="",
                   components=None,
                   color_scheme="accent8",
                   with_node_labels=False,
@@ -227,6 +227,10 @@ def drawgv_graph (g,name,layoutid='sfdp',title="",
         graph.edge(e[0],e[1],label=g[e[0]][e[1]][e[2]]['label'])
       else:
         graph.edge(e[0],e[1])
+  if name == "":
+    for n,v in globals().items():
+      if v is g:
+        name = n
   gv.render(name)
   img = Image.open(name+'.png')
   display(img)
