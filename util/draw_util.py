@@ -220,14 +220,14 @@ def drawgv_graph (g,layoutid='sfdp',name="",title="",
       group_colors[group_name] = color
       for node in nodes:
         if with_node_labels:
-          graph.node(node, style='filled', fillcolor=color, label=g.nodes[node]['label'])
+          graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'])
         else:
-          graph.node(node, style='filled', fillcolor=color)
+          graph.node(str(node), style='filled', fillcolor=color)
     for e in g.edges:
       if with_edge_labels:
-        graph.edge(e[0],e[1],label=g[e[0]][e[1]][e[2]]['label'])
+        graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
       else:
-        graph.edge(e[0],e[1])
+        graph.edge(str(e[0]),str(e[1]))
   if name == "":
     for n,v in globals().items():
       if v is g:
