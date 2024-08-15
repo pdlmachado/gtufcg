@@ -194,17 +194,18 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     plt.show()
 
 # Draw using graphviz
-def drawgv_graph (g,name="",layoutid='sfdp',title="",
+def drawgv_graph (g,layoutid='sfdp',name="",title="",
                   components=None,
                   color_scheme="accent8",
                   with_node_labels=False,
-                  with_edge_labels=False,format='png'):
+                  with_edge_labels=False,format='png',
+                  width=5, height=4):
   if nx.is_directed(g):
     gv = graphviz.Digraph(engine=layoutid,format=format)
   else:
     gv = graphviz.Graph(engine=layoutid, format=format)
   gv.graph_attr['label'] = title
-  gv.attr(size="5,4")
+  gv.attr(size=f"{width},{height}")
   gv.attr(randdir="TB")
   if components is None:
     components = [g.nodes]
