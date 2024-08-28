@@ -225,7 +225,10 @@ def drawgv_graph (g,layoutid='sfdp',name="",title="",
           graph.node(str(node), style='filled', fillcolor=color)
     for e in g.edges:
       if with_edge_labels:
-        graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
+        if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
+          graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
+        else:
+          graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
       else:
         graph.edge(str(e[0]),str(e[1]))
   if name == "":
