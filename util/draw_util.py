@@ -199,14 +199,14 @@ def drawgv_graph (g,layoutid='sfdp',name="",title="",
                   color_scheme="paired12",
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
-                  width=5, height=4):
+                  width=5, height=4, rankdir='LR'):
   if nx.is_directed(g):
     gv = graphviz.Digraph(engine=layoutid,format=format)
   else:
     gv = graphviz.Graph(engine=layoutid, format=format)
   gv.graph_attr['label'] = title
   gv.attr(size=f"{width},{height}")
-  gv.attr(randdir="TB")
+  gv.attr(rankdir=rankdir)
   if components is None:
     components = [g.nodes]
   color_cycle = cycle(range(1, len(components)+1))
