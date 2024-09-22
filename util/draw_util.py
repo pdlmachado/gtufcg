@@ -9,6 +9,7 @@ from matplotlib import colors
 import graphviz
 from itertools import cycle
 from PIL import Image
+from math import trunc
 
 """# get_edge """
 
