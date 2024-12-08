@@ -1,0 +1,9 @@
+Node,Type,Coordinates
+A,residential,"(0, 0)"
+B,commercial,"(1, 2)"
+C,intersection,"(2, 1)"
+D,residential,"(3, 3)"
+E,commercial,"(4, 2)"
+F,industrial,"(5, 1)"
+G,park,"(2, 4)"
+H,school,"(3, 0)"
