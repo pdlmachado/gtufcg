@@ -24,7 +24,8 @@ import csv
 def read_multiple_CSV(G,
                       vfilename='', vid='',
                       efilename='', esourceid='', etargetid='', weightid='',
-                      delimiter=',', multiple_edges=True, self_loops=True):
+                      delimiter=',', multiple_edges=True, self_loops=True,
+                      toInt=[], toFloat=[]):
     # Vertices
     listcsvV = []
     with open(vfilename, newline='') as f:
@@ -42,6 +43,12 @@ def read_multiple_CSV(G,
                 listcsvE.append(row)
         f.close()
         read_edges(G, listcsvE, esourceid, etargetid, weightid, self_loops, multiple_edges)
+    for u,v in G.edges:
+        for attr in toInt:
+            G[u][v][attr] = int(G[u][v][attr])
+    for u,v in G.edges:
+        for attr in toFloat:
+            G[u][v][attr] = float(G[u][v][attr])  
 
 
 def read_vertices(G, listcsv, vid):
