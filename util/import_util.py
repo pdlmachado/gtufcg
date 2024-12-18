@@ -88,3 +88,5 @@ def read_edges(G, listcsv, esourceid, etargetid, weightid, self_loops, multiple_
                     G[source][target][headers[h]] = listcsv[l][h]
                 if weight_index != -1:
                     G[source][target]['weight'] = listcsv[l][weight_index]
+
+
