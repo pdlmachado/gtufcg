@@ -86,7 +86,8 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
             pos = nx.nx_agraph.pygraphviz_layout(G, layoutid)
         elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout",
-                          "spring_layout", "spectral_layout", "spiral_layout", "planar_layout"]:
+                          "spring_layout", "spectral_layout", "spiral_layout", "planar_layout", "arf_layout", 
+                          "forceatlas2_layout"]:
             pos = eval(f"nx.{layoutid}(G)")
     elif pos is None:
         pos = nx.spring_layout(G)
