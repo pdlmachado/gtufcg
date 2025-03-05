@@ -289,5 +289,5 @@ def drawgv_graph_vs (g,layoutid='sfdp',name="",title="",
         name = n
   gv.render(name)
   img = Image.open(name+'.png')
-  display(img)
+  img.show()
     
