@@ -50,7 +50,7 @@ nx_layouts_all = nx_layouts_r + ["planar_layout"]
 
 gv_layouts_r = ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage"]
 
-gv_layouts_all = ["patchwork"]
+gv_layouts_all = gv_layouts_r + ["patchwork"]
 
 """## draw_graph """
 # Desenha um grafo de tipo qualquer
