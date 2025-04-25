@@ -201,7 +201,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     if nmap is not None and vmin is not None and vmax is not None:
         cnorm = colors.Normalize(vmin, vmax)
         sm = ScalarMappable(cnorm, nmap)
-        plt.colorbar(sm, shrink=0.6, ax)
+        plt.colorbar(sm, shrink=0.6)
     plt.show()
 
 # Draw using graphviz
