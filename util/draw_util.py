@@ -41,6 +41,17 @@ def get_node_classes(d, r):
 
 """# Graph Draw """
 
+"""## layouts """
+
+nx_layouts_r = ["circular_layout", "kamada_kawai_layout", "random_layout", "shell_layout",
+                "spring_layout", "spectral_layout", "spiral_layout", "arf_layout", 
+                "forceatlas2_layout"]
+nx_layouts_all = nx_layouts_r + ["planar_layout"]
+
+gv_layouts_r = ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage"]
+
+gv_layouts_all = ["patchwork"]
+
 """## draw_graph """
 # Desenha um grafo de tipo qualquer
 # Parâmetros:
@@ -83,11 +94,9 @@ def draw_graph(G, pos=None, title="", layoutid=None,
                eset=[], esetcolor=[], esetlabel=[]):
     ax = plt.gca()
     if pos is None and layoutid is not None:
-        if layoutid in ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"]:
+        if layoutid in gv_layouts_all:
             pos = nx.nx_agraph.pygraphviz_layout(G, layoutid)
-        elif layoutid in ["circular_layout", "kamada_kawai_layout", "planar_layout", "random_layout", "shell_layout",
-                          "spring_layout", "spectral_layout", "spiral_layout", "planar_layout", "arf_layout", 
-                          "forceatlas2_layout"]:
+        elif layoutid in nx_layouts_all:
             pos = eval(f"nx.{layoutid}(G)")
     elif pos is None:
         pos = nx.spring_layout(G)
