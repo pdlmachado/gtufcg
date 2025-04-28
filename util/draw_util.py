@@ -248,7 +248,7 @@ def create_graph_img (g,layoutid='sfdp',title="",
 # Função para Google Colab
 def drawgv_graph (g,layoutid='sfdp',name="out",title="",
                   components=None,
-                  color_scheme="paired12",
+                  color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
@@ -260,47 +260,15 @@ def drawgv_graph (g,layoutid='sfdp',name="out",title="",
   display(img)
                     
 # Função para VSCode
-def drawgv_graph_vs (g,layoutid='sfdp',name="",title="",
+def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
                   components=None,
-                  color_scheme="paired12",
+                  color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
-  if nx.is_directed(g):
-    gv = graphviz.Digraph(engine=layoutid,format=format)
-  else:
-    gv = graphviz.Graph(engine=layoutid, format=format)
-  gv.graph_attr['label'] = title
-  gv.attr(size=f"{width},{height}")
-  gv.attr(rankdir=rankdir)
-  if components is None:
-    components = [g.nodes]
-  color_cycle = cycle(range(1, len(components)+1))
-  group_colors = {}
-  with gv.subgraph(name='main') as graph:
-    graph.attr(label='Grafo', color='black')
-    for index, nodes in enumerate(components):
-      color_index = next(color_cycle)
-      color = f'/{color_scheme}/{color_index}'
-      group_name = f'Componente {index + 1}'
-      group_colors[group_name] = color
-      for node in nodes:
-        if with_node_labels:
-          graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'])
-        else:
-          graph.node(str(node), style='filled', fillcolor=color)
-    for e in g.edges:
-      if with_edge_labels:
-        if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
-          graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
-        else:
-          graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
-      else:
-        graph.edge(str(e[0]),str(e[1]))
-  if name == "":
-    for n,v in globals().items():
-      if v is g:
-        name = n
+  gv = create_img(g,layoutid,components,color_scheme,
+                  with_node_labels, with_edge_labels, format,
+                  width, height, randir)
   gv.render(name)
   img = Image.open(name+'.png')
   img.show()
