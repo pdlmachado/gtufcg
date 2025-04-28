@@ -252,7 +252,7 @@ def drawgv_graph (g,layoutid='sfdp',name="out",title="",
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
-  gv = create_graph_img(g,layoutid,components,color_scheme,
+  gv = create_graph_img(g,layoutid,title,components,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
   gv.render(name)
@@ -266,7 +266,7 @@ def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
-  gv = create_img(g,layoutid,components,color_scheme,
+  gv = create_img(g,layoutid,title,components,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
   gv.render(name)
