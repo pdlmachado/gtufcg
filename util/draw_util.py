@@ -204,13 +204,14 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         plt.colorbar(sm, shrink=0.6, ax=ax)
     plt.show()
 
-# Draw using graphviz
-def drawgv_graph (g,layoutid='sfdp',name="",title="",
-                  components=None,
-                  color_scheme="paired12",
-                  with_node_labels=False,
-                  with_edge_labels=False,format='png',
-                  width=5, height=4, rankdir='LR'):
+""" # Draw using graphviz
+"""
+def create_graph_img (g,layoutid='sfdp',title="",
+                      components=None,
+                      color_scheme="paired12",
+                      with_node_labels=False,
+                      with_edge_labels=False,format='png',
+                      width=5, height=4, rankdir='LR'):
   if nx.is_directed(g):
     gv = graphviz.Digraph(engine=layoutid,format=format)
   else:
@@ -242,20 +243,23 @@ def drawgv_graph (g,layoutid='sfdp',name="",title="",
           graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
       else:
         graph.edge(str(e[0]),str(e[1]))
-  if name == "":
-    for n,v in globals().items():
-      if v is g:
-        name = n
+  return gv
+                        
+# Função para Google Colab
+def drawgv_graph (g,layoutid='sfdp',name="out",title="",
+                  components=None,
+                  color_scheme="paired12",
+                  with_node_labels=False,
+                  with_edge_labels=False,format='png',
+                  width=5, height=4, rankdir='LR'):
+  gv = create_img(g,layoutid,components,color_scheme,
+                  with_node_labels, with_edge_labels, format,
+                  width, height, randir)
   gv.render(name)
   img = Image.open(name+'.png')
   display(img)
-  #with gv.subgraph(name='cluster_legend') as legend:
-  #  legend.attr(label='Legenda', color='black')
-  #  for group, color in group_colors.items():
-  #      # Create a node for each legend item
-  #      legend.node(group, label=group, style='filled', fillcolor=color)
-
-# Draw using graphviz in Windows env like VSCode
+                    
+# Função para VSCode
 def drawgv_graph_vs (g,layoutid='sfdp',name="",title="",
                   components=None,
                   color_scheme="paired12",
