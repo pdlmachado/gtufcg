@@ -20,12 +20,12 @@ Parâmetros:
 """
 import csv
 
-
 def read_multiple_CSV(G,
                       vfilename='', vid='',
                       efilename='', esourceid='', etargetid='', weightid='',
                       delimiter=',', multiple_edges=True, self_loops=True,
-                      toInt=[], toFloat=[]):
+                      toInt=[], toFloat=[],
+                      node_label=None, edge_label=None):
     # Vertices
     listcsvV = []
     with open(vfilename, newline='') as f:
@@ -33,7 +33,7 @@ def read_multiple_CSV(G,
         for row in reader:
             listcsvV.append(row)
     f.close()
-    read_vertices(G, listcsvV, vid)
+    read_vertices(G, listcsvV, vid, node_label)
     # Arestas
     if efilename != '':
         listcsvE = []
@@ -42,7 +42,8 @@ def read_multiple_CSV(G,
             for row in reader:
                 listcsvE.append(row)
         f.close()
-        read_edges(G, listcsvE, esourceid, etargetid, weightid, self_loops, multiple_edges)
+        read_edges(G, listcsvE, esourceid, etargetid, weightid, 
+                   self_loops, multiple_edges, edge_label)
     for u,v in G.edges:
         for attr in toInt:
             G[u][v][attr] = int(G[u][v][attr])
@@ -51,7 +52,7 @@ def read_multiple_CSV(G,
             G[u][v][attr] = float(G[u][v][attr])  
 
 
-def read_vertices(G, listcsv, vid):
+def read_vertices(G, listcsv, vid, node_label):
     headers = listcsv[0]
     vertex_index = headers.index(vid)
     for l in range(1, len(listcsv)):
@@ -59,9 +60,12 @@ def read_vertices(G, listcsv, vid):
         G.add_node(node)
         for h in range(len(headers)):
             G.nodes[node][headers[h]] = listcsv[l][h]
+            if node_label == headers[h]:
+              G.nodes[node]['label'] = G.nodes[node][node_label]
 
 
-def read_edges(G, listcsv, esourceid, etargetid, weightid, self_loops, multiple_edges):
+def read_edges(G, listcsv, esourceid, etargetid, weightid, 
+               self_loops, multiple_edges, edge_label):
     headers = listcsv[0]
     source_index = headers.index(esourceid)
     target_index = headers.index(etargetid)
@@ -80,13 +84,15 @@ def read_edges(G, listcsv, esourceid, etargetid, weightid, self_loops, multiple_
                 G.add_edge(source, target, key)
                 for h in range(len(headers)):
                     G[source][target][key][headers[h]] = listcsv[l][h]
+                    if edge_label == headers[h]:
+                        G[source][target][key]['label'] = G[source][target][key][edge_label]
                 if weight_index != -1:
                     G[source][target][key]['weight'] = listcsv[l][weight_index]
             else:
                 G.add_edge(source, target)
                 for h in range(len(headers)):
                     G[source][target][headers[h]] = listcsv[l][h]
+                    if edge_label == headers[h]:
+                      G[source][target]['label'] = G[source][target][edge_label]
                 if weight_index != -1:
                     G[source][target]['weight'] = listcsv[l][weight_index]
-
-
