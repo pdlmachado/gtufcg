@@ -52,19 +52,19 @@ def read_multiple_CSV(g,
             g[u][v][attr] = float(G[u][v][attr])  
 
 
-def read_vertices(G, listcsv, vid, node_label):
+def read_vertices(g, listcsv, vid, node_label):
     headers = listcsv[0]
     vertex_index = headers.index(vid)
     for l in range(1, len(listcsv)):
         node = listcsv[l][vertex_index]
-        G.add_node(node)
+        g.add_node(node)
         for h in range(len(headers)):
-            G.nodes[node][headers[h]] = listcsv[l][h]
+            g.nodes[node][headers[h]] = listcsv[l][h]
             if node_label == headers[h]:
-              G.nodes[node]['label'] = G.nodes[node][node_label]
+              g.nodes[node]['label'] = g.nodes[node][node_label]
 
 
-def read_edges(G, listcsv, esourceid, etargetid, weightid, 
+def read_edges(g, listcsv, esourceid, etargetid, weightid, 
                self_loops, multiple_edges, edge_label):
     headers = listcsv[0]
     source_index = headers.index(esourceid)
@@ -79,20 +79,20 @@ def read_edges(G, listcsv, esourceid, etargetid, weightid,
         if not self_loops and source == target or not multiple_edges and G.has_edge(source, target):
             pass
         else:
-            if type(G) is nx.classes.multigraph.MultiGraph:
-                key = G.number_of_edges(source, target)
-                G.add_edge(source, target, key)
+            if type(g) is nx.classes.multigraph.MultiGraph:
+                key = g.number_of_edges(source, target)
+                g.add_edge(source, target, key)
                 for h in range(len(headers)):
-                    G[source][target][key][headers[h]] = listcsv[l][h]
+                    g[source][target][key][headers[h]] = listcsv[l][h]
                     if edge_label == headers[h]:
-                        G[source][target][key]['label'] = G[source][target][key][edge_label]
+                        g[source][target][key]['label'] = g[source][target][key][edge_label]
                 if weight_index != -1:
-                    G[source][target][key]['weight'] = listcsv[l][weight_index]
+                    g[source][target][key]['weight'] = listcsv[l][weight_index]
             else:
-                G.add_edge(source, target)
+                g.add_edge(source, target)
                 for h in range(len(headers)):
-                    G[source][target][headers[h]] = listcsv[l][h]
+                    g[source][target][headers[h]] = listcsv[l][h]
                     if edge_label == headers[h]:
-                      G[source][target]['label'] = G[source][target][edge_label]
+                      g[source][target]['label'] = g[source][target][edge_label]
                 if weight_index != -1:
-                    G[source][target]['weight'] = listcsv[l][weight_index]
+                    g[source][target]['weight'] = listcsv[l][weight_index]
