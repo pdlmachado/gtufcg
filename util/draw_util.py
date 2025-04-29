@@ -43,9 +43,7 @@ def get_node_classes(d, r):
 
 """## layouts """
 
-nx_layouts_r = ["circular_layout", "kamada_kawai_layout", "random_layout", "shell_layout",
-                "spring_layout", "spectral_layout", "spiral_layout", "arf_layout", 
-                "forceatlas2_layout"]
+nx_layouts_r = ["circular_layout", "kamada_kawai_layout", "random_layout", "shell_layout", "spring_layout", "spectral_layout", "spiral_layout", "arf_layout", "forceatlas2_layout"]
 nx_layouts_all = nx_layouts_r + ["planar_layout"]
 
 gv_layouts_r = ["neato", "dot", "fdp", "sfdp", "circo", "twopi", "osage"]
