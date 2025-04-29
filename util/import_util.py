@@ -17,6 +17,9 @@ Parâmetros:
 -   delimiter - delimitador utilizado nos arquivos CSV - default: ,
 -   multiple_edges - se False, o grafo não poderá ter arestas paralelas
 -   self_loops - se False, o grafo não poderá ter aresta loop
+-   toInt, toFloat - lista de atributos que devem ser convertidos para int ou float, respectivamente.
+-   node_label, edge_label - quando definido, indica o nome do atributo cujo valor será atribuído ao atributo 'label'. 
+-      Se NONE, atributo 'label' não será criado, a menos que já faça parte da lista de atributos. 
 """
 import csv
 
