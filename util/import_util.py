@@ -49,10 +49,10 @@ def read_multiple_CSV(g,
                    self_loops, multiple_edges, edge_label)
     for u,v in g.edges:
         for attr in toInt:
-            g[u][v][attr] = int(G[u][v][attr])
+            g[u][v][attr] = int(g[u][v][attr])
     for u,v in g.edges:
         for attr in toFloat:
-            g[u][v][attr] = float(G[u][v][attr])  
+            g[u][v][attr] = float(g[u][v][attr])  
 
 
 def read_vertices(g, listcsv, vid, node_label):
