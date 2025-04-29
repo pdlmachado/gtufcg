@@ -7,7 +7,7 @@ import networkx as nx
 Importa um grafo a partir de tabelas com os conjuntos de vértices e arestas.
 
 Parâmetros:
--   G - instância do grafo
+-   g - instância do grafo
 -   vfilename - arquivo com tabela de vértices no formato CSV
 -   vid - atributo que representa vértices na tabela de arestas
 -   efilename - arquivo com tabela de arestas no formato CSV
@@ -20,7 +20,7 @@ Parâmetros:
 """
 import csv
 
-def read_multiple_CSV(G,
+def read_multiple_CSV(g,
                       vfilename='', vid='',
                       efilename='', esourceid='', etargetid='', weightid='',
                       delimiter=',', multiple_edges=True, self_loops=True,
@@ -33,7 +33,7 @@ def read_multiple_CSV(G,
         for row in reader:
             listcsvV.append(row)
     f.close()
-    read_vertices(G, listcsvV, vid, node_label)
+    read_vertices(g, listcsvV, vid, node_label)
     # Arestas
     if efilename != '':
         listcsvE = []
@@ -42,14 +42,14 @@ def read_multiple_CSV(G,
             for row in reader:
                 listcsvE.append(row)
         f.close()
-        read_edges(G, listcsvE, esourceid, etargetid, weightid, 
+        read_edges(g, listcsvE, esourceid, etargetid, weightid, 
                    self_loops, multiple_edges, edge_label)
-    for u,v in G.edges:
+    for u,v in g.edges:
         for attr in toInt:
-            G[u][v][attr] = int(G[u][v][attr])
-    for u,v in G.edges:
+            g[u][v][attr] = int(G[u][v][attr])
+    for u,v in g.edges:
         for attr in toFloat:
-            G[u][v][attr] = float(G[u][v][attr])  
+            g[u][v][attr] = float(G[u][v][attr])  
 
 
 def read_vertices(G, listcsv, vid, node_label):
