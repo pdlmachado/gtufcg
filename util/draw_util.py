@@ -230,7 +230,10 @@ def create_graph_img (g,layoutid='sfdp',title="",
       group_colors[group_name] = color
       for node in nodes:
         if with_node_labels:
-          graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'])
+          try:
+            graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'])
+          except:
+            graph.node(str(node), style='filled', fillcolor=color)
         else:
           graph.node(str(node), style='filled', fillcolor=color)
     for e in g.edges:
@@ -238,7 +241,10 @@ def create_graph_img (g,layoutid='sfdp',title="",
         if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
           graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
         else:
-          graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
+          try:
+            graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
+          except:
+            graph.edge(str(e[0]),str(e[1]))
       else:
         graph.edge(str(e[0]),str(e[1]))
   return gv
