@@ -279,4 +279,22 @@ def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
   gv.render(name)
   img = Image.open(name+'.png')
   img.show()
-    
+
+# Desenha dois grafos, lado a lado
+def drawgv_duo (gv1, gv2, title1, title2, width=5, height=4):
+  gv1.render(title1)
+  gv2.render(title2)
+  img1 = plt.imread(title1+'.png')
+  img2 = plt.imread(title2+'.png')
+  fig, axs = plt.subplots(1, 2, figsize=(width, height))  # 1 row, 2 columns
+
+  axs[0].imshow(img1)
+  axs[0].axis('off')  # Hide axes
+  axs[0].set_title(title1)
+
+  axs[1].imshow(img2)
+  axs[1].axis('off')
+  axs[1].set_title(title2)
+
+  plt.tight_layout()
+  plt.show()
