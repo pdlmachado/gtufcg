@@ -205,7 +205,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
 """ # Draw using graphviz
 """
 def create_graph_img (g,layoutid='sfdp',title="",
-                      components=None,
+                      components=None, shape="circle",
                       color_scheme="paired12",
                       with_node_labels=False,
                       with_edge_labels=False,format='png',
@@ -231,11 +231,11 @@ def create_graph_img (g,layoutid='sfdp',title="",
       for node in nodes:
         if with_node_labels:
             try:
-              graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'])
+              graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'], shape=shape)
             except:
-              graph.node(str(node), style='filled', fillcolor=color)              
+              graph.node(str(node), style='filled', fillcolor=color, shape=shape)              
         else:
-          graph.node(str(node), style='filled', fillcolor=color)
+          graph.node(str(node), style='filled', fillcolor=color, shape=shape)
     for e in g.edges:
       if with_edge_labels:
         if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
@@ -254,12 +254,12 @@ def create_graph_img (g,layoutid='sfdp',title="",
                         
 # Função para Google Colab
 def drawgv_graph (g,layoutid='sfdp',name="out",title="",
-                  components=None,
+                  components=None, shape="circle",
                   color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
-  gv = create_graph_img(g,layoutid,title,components,color_scheme,
+  gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
   gv.render(name)
@@ -268,12 +268,12 @@ def drawgv_graph (g,layoutid='sfdp',name="out",title="",
                     
 # Função para VSCode
 def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
-                  components=None,
+                  components=None, shape="circle",
                   color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
                   with_node_labels=False,
                   with_edge_labels=False,format='png',
                   width=5, height=4, rankdir='LR'):
-  gv = create_graph_img(g,layoutid,title,components,color_scheme,
+  gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
   gv.render(name)
