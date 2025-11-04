@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="ano" for="edge" attr.name="ano" attr.type="string"/>
+<key id="cidade" for="node" attr.name="cidade" attr.type="string"/>
+<key id="nome" for="node" attr.name="nome" attr.type="string"/>
+<graph edgedefault="undirected"><node id="0">
+  <data key="nome">João</data>
+  <data key="cidade">Campina Grande</data>
+</node>
+<node id="1">
+  <data key="nome">Maria</data>
+  <data key="cidade">Campina Grande</data>
+</node>
+<node id="2">
+  <data key="nome">Fernando</data>
+  <data key="cidade">Recife</data>
+</node>
+<node id="3">
+  <data key="nome">Julia</data>
+  <data key="cidade">João Pessoa</data>
+</node>
+<node id="4">
+  <data key="nome">Marcos</data>
+  <data key="cidade">Campina Grande</data>
+</node>
+<node id="5">
+  <data key="nome">Roberta</data>
+  <data key="cidade">Recife</data>
+</node>
+<node id="6">
+  <data key="nome">Lucas</data>
+  <data key="cidade">João Pessoa</data>
+</node>
+<node id="7">
+  <data key="nome">Ana</data>
+  <data key="cidade">Campina Grande</data>
+</node>
+<node id="8">
+  <data key="nome">Pedro</data>
+  <data key="cidade">Natal</data>
+</node>
+<node id="9">
+  <data key="nome">Carla</data>
+  <data key="cidade">Recife</data>
+</node>
+<node id="10">
+  <data key="nome">Bruno</data>
+  <data key="cidade">João Pessoa</data>
+</node>
+<node id="11">
+  <data key="nome">Sofia</data>
+  <data key="cidade">Campina Grande</data>
+</node>
+<node id="12">
+  <data key="nome">Rafaela</data>
+  <data key="cidade">Recife</data>
+</node>
+<node id="13">
+  <data key="nome">Diego</data>
+  <data key="cidade">Natal</data>
+</node>
+<edge source="0" target="1">
+  <data key="ano">2014</data>
+</edge>
+<edge source="0" target="2">
+  <data key="ano">2016</data>
+</edge>
+<edge source="0" target="7">
+  <data key="ano">2019</data>
+</edge>
+<edge source="1" target="2">
+  <data key="ano">2016</data>
+</edge>
+<edge source="1" target="3">
+  <data key="ano">2017</data>
+</edge>
+<edge source="1" target="11">
+  <data key="ano">2020</data>
+</edge>
+<edge source="2" target="3">
+  <data key="ano">2017</data>
+</edge>
+<edge source="2" target="4">
+  <data key="ano">2018</data>
+</edge>
+<edge source="2" target="8">
+  <data key="ano">2021</data>
+</edge>
+<edge source="2" target="12">
+  <data key="ano">2022</data>
+</edge>
+<edge source="3" target="6">
+  <data key="ano">2018</data>
+</edge>
+<edge source="3" target="10">
+  <data key="ano">2020</data>
+</edge>
+<edge source="4" target="7">
+  <data key="ano">2020</data>
+</edge>
+<edge source="4" target="10">
+  <data key="ano">2023</data>
+</edge>
+<edge source="5" target="9">
+  <data key="ano">2018</data>
+</edge>
+<edge source="6" target="10">
+  <data key="ano">2019</data>
+</edge>
+<edge source="6" target="12">
+  <data key="ano">2023</data>
+</edge>
+<edge source="7" target="11">
+  <data key="ano">2021</data>
+</edge>
+<edge source="8" target="13">
+  <data key="ano">2020</data>
+</edge>
+<edge source="9" target="12">
+  <data key="ano">2019</data>
+</edge>
+<edge source="9" target="13">
+  <data key="ano">2022</data>
+</edge>
+</graph></graphml>
