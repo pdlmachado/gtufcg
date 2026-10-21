@@ -246,22 +246,26 @@ def create_graph_img (g,layoutid='sfdp',title="",
       for node in nodes:
         # Ids internos seguros: ':' (porta) e '.' em nomes de vértices quebram a sintaxe DOT
         label = str(node)
-        if with_node_labels and 'label' in g.nodes[node]:
-          label = str(g.nodes[node]['label'])
+        if with_node_labels:
+          node_attributes = g.nodes[node]
+          for attribute in ('label', 'name', 'nome'):
+            if attribute in node_attributes:
+              label = str(node_attributes[attribute])
+              break
         graph.node(node_ids[node], style='filled', fillcolor=color, label=label, shape=shape)
     for e in g.edges:
       tail, head = node_ids[e[0]], node_ids[e[1]]
       if with_edge_labels:
         if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
-          try:
-            graph.edge(tail, head, label=g[e[0]][e[1]][e[2]]['label'])
-          except:
-            graph.edge(tail, head)
+          edge_attributes = g[e[0]][e[1]][e[2]]
         else:
-          try:
-            graph.edge(tail, head, label=g[e[0]][e[1]]['label'])
-          except:
-            graph.edge(tail, head)
+          edge_attributes = g[e[0]][e[1]]
+        for attribute in ('label', 'relation'):
+          if attribute in edge_attributes:
+            graph.edge(tail, head, label=edge_attributes[attribute])
+            break
+        else:
+          graph.edge(tail, head)
       else:
         graph.edge(tail, head)
   return gv
