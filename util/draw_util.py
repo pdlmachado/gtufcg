@@ -9,11 +9,15 @@ from matplotlib import colors
 import graphviz
 from itertools import cycle
 import os
+import shutil
+import subprocess
 from PIL import Image
 from math import trunc
 try:
+    from IPython import get_ipython
     from IPython.display import display
 except ImportError:
+    get_ipython = None
     display = None
 
 """# get_edge """
@@ -60,7 +64,7 @@ gv_layouts_all = gv_layouts_r + ["patchwork"]
 # Parâmetros:
 #   G, pos, title, layoutid - grafo, layout, título, id de um layout (caso deseje que o objeto layout seja criado internamente)
 #   node_labels, node_edges - dicionários com os labels de cada vértice e aresta respectivamente
-#   node_color, node_size, nmap, node_order - cor, tamanho, mapa e ordem de cores para vértices (Ex: nmap = plt.cm.YlGn)
+#   node_color, node_size, node_shape, nmap, node_order - cor, tamanho, mapa e ordem de cores para vértices (Ex: nmap = plt.cm.YlGn)
 #        Se nmap não for None, node_color tem que ser um array de números inteiros que indexam o map para cada vértice
 #   vmin, vmax - valor máximo e mínimo para representar no colorbar. 
 #        Se vmin,vmax = None ou nmax = None, não será criado um colorbar.
@@ -88,7 +92,7 @@ gv_layouts_all = gv_layouts_r + ["patchwork"]
 
 def draw_graph(G, pos=None, title="", layoutid=None,
                node_labels=None, edge_labels=None,
-               node_color="cyan", node_size=500, nmap=None,
+               node_color="cyan", node_size=500, node_shape= 'o', nmap=None,
                node_order=None, vmin=None, vmax=None,
                font_size=12, font_color="black",
                edge_color="gray", arrow_size=15, emap=None,
@@ -105,22 +109,22 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         pos = nx.spring_layout(G)
     if not nset:
         if node_order is None:
-            nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size)
+            nx.draw_networkx_nodes(G, pos, node_color=node_color, cmap=nmap, node_size=node_size, node_shape=node_shape)
         else:
-            nx.draw_networkx_nodes(G, pos, nodelist=node_order, node_color=node_color, cmap=nmap, node_size=node_size)
+            nx.draw_networkx_nodes(G, pos, nodelist=node_order, node_color=node_color, cmap=nmap, node_size=node_size, node_shape=node_shape)
     elif not nset == [] and nsetlabel == []:
         comp_nset = [n for n in G.nodes if n not in sum([list(x) for x in nset], [])]
         if comp_nset:
             nset.append(comp_nset)
         for i in range(len(nset)):
-            nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size)
+            nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], node_size=node_size, node_shape=node_shape)
     else:
         handles = []
         comp_nset = [n for n in G.nodes if n not in sum([list(x) for x in nset], [])]
         if comp_nset:
             nset.append(comp_nset)
         for i in range(len(nset)):
-            nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], label=nsetlabel[i],
+            nx.draw_networkx_nodes(G, pos, nodelist=nset[i], node_color=nsetcolor[i], label=nsetlabel[i], node_shape=node_shape,
                                    node_size=node_size)
             handles.append(mpatches.Patch(color=nsetcolor[i], label=nsetlabel[i]))
         ax.legend(handles=handles)
@@ -210,10 +214,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
     plt.savefig(path, bbox_inches='tight')
     plt.close()
     img = Image.open(path)
-    if display is None:
-        img.show()
-    else:
-        display(img)
+    _show(img, path)
 
 """ # Draw using graphviz
 """
@@ -265,7 +266,20 @@ def create_graph_img (g,layoutid='sfdp',title="",
         graph.edge(tail, head)
   return gv
                         
-# Função para Google Colab
+def _show(img, path):
+  shell = get_ipython() if get_ipython is not None else None
+  if shell is not None and getattr(shell, "kernel", None) is not None:
+    display(img)
+  elif os.name == "nt" and shutil.which("code") is not None:
+    subprocess.Popen(
+        ["cmd", "/c", "code", "--reuse-window", os.path.abspath(path)]
+    )
+  elif hasattr(os, "startfile"):
+    os.startfile(os.path.abspath(path))
+  else:
+    img.show()
+
+# Função pra GraphViz
 def drawgv_graph (g,layoutid='sfdp',name="out",title="",
                   components=None, shape="circle",
                   color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
@@ -275,12 +289,11 @@ def drawgv_graph (g,layoutid='sfdp',name="out",title="",
   gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
+  os.makedirs('temp', exist_ok=True)
   gv.render('temp/'+name)
-  img = Image.open('temp/'+name+'.png')
-  if display is None:
-    img.show()
-  else:
-    display(img)
+  path = 'temp/'+name+'.png'
+  img = Image.open(path)
+  _show(img, path)
                     
 # Função para VSCode
 #def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
@@ -318,7 +331,4 @@ def drawgv_duo (gv1, gv2, title1, title2, width=5, height=4):
   fig.savefig(path, bbox_inches='tight')
   plt.close(fig)
   img = Image.open(path)
-  if display is None:
-    img.show()
-  else:
-    display(img)
+  _show(img, path)
