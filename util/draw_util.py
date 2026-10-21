@@ -8,8 +8,13 @@ from matplotlib.cm import ScalarMappable
 from matplotlib import colors
 import graphviz
 from itertools import cycle
+import os
 from PIL import Image
 from math import trunc
+try:
+    from IPython.display import display
+except ImportError:
+    display = None
 
 """# get_edge """
 
@@ -89,7 +94,7 @@ def draw_graph(G, pos=None, title="", layoutid=None,
                edge_color="gray", arrow_size=15, emap=None,
                width=8, height=5,
                nset=[], nsetcolor=[], nsetlabel=[],
-               eset=[], esetcolor=[], esetlabel=[]):
+               eset=[], esetcolor=[], esetlabel=[], name="out"):
     ax = plt.gca()
     if pos is None and layoutid is not None:
         if layoutid in gv_layouts_all:
@@ -200,7 +205,15 @@ def draw_graph(G, pos=None, title="", layoutid=None,
         cnorm = colors.Normalize(vmin, vmax)
         sm = ScalarMappable(cnorm, nmap)
         plt.colorbar(sm, shrink=0.6, ax=ax)
-    plt.show()
+    os.makedirs('temp', exist_ok=True)
+    path = 'temp/' + name + '.png'
+    plt.savefig(path, bbox_inches='tight')
+    plt.close()
+    img = Image.open(path)
+    if display is None:
+        img.show()
+    else:
+        display(img)
 
 """ # Draw using graphviz
 """
@@ -219,6 +232,7 @@ def create_graph_img (g,layoutid='sfdp',title="",
   gv.attr(rankdir=rankdir)
   if components is None:
     components = [g.nodes]
+  node_ids = {node: f"n{i}" for i, node in enumerate(g.nodes)}
   color_cycle = cycle(range(1, len(components)+1))
   group_colors = {}
   with gv.subgraph(name='main') as graph:
@@ -229,27 +243,26 @@ def create_graph_img (g,layoutid='sfdp',title="",
       group_name = f'Componente {index + 1}'
       group_colors[group_name] = color
       for node in nodes:
-        if with_node_labels:
-            try:
-              graph.node(str(node), style='filled', fillcolor=color, label=g.nodes[node]['label'], shape=shape)
-            except:
-              graph.node(str(node), style='filled', fillcolor=color, shape=shape)              
-        else:
-          graph.node(str(node), style='filled', fillcolor=color, shape=shape)
+        # Ids internos seguros: ':' (porta) e '.' em nomes de vértices quebram a sintaxe DOT
+        label = str(node)
+        if with_node_labels and 'label' in g.nodes[node]:
+          label = str(g.nodes[node]['label'])
+        graph.node(node_ids[node], style='filled', fillcolor=color, label=label, shape=shape)
     for e in g.edges:
+      tail, head = node_ids[e[0]], node_ids[e[1]]
       if with_edge_labels:
         if type(g) is nx.classes.multigraph.MultiGraph or type(g) is nx.classes.multidigraph.MultiDiGraph:
           try:
-            graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]][e[2]]['label'])
+            graph.edge(tail, head, label=g[e[0]][e[1]][e[2]]['label'])
           except:
-            graph.edge(str(e[0]),str(e[1]))
+            graph.edge(tail, head)
         else:
           try:
-            graph.edge(str(e[0]),str(e[1]),label=g[e[0]][e[1]]['label'])
+            graph.edge(tail, head, label=g[e[0]][e[1]]['label'])
           except:
-            graph.edge(str(e[0]),str(e[1]))
+            graph.edge(tail, head)
       else:
-        graph.edge(str(e[0]),str(e[1]))
+        graph.edge(tail, head)
   return gv
                         
 # Função para Google Colab
@@ -262,30 +275,33 @@ def drawgv_graph (g,layoutid='sfdp',name="out",title="",
   gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
                   with_node_labels, with_edge_labels, format,
                   width, height, rankdir)
-  gv.render(name)
-  img = Image.open(name+'.png')
-  display(img)
+  gv.render('temp/'+name)
+  img = Image.open('temp/'+name+'.png')
+  if display is None:
+    img.show()
+  else:
+    display(img)
                     
 # Função para VSCode
-def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
-                  components=None, shape="circle",
-                  color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
-                  with_node_labels=False,
-                  with_edge_labels=False,format='png',
-                  width=5, height=4, rankdir='LR'):
-  gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
-                  with_node_labels, with_edge_labels, format,
-                  width, height, rankdir)
-  gv.render(name)
-  img = Image.open(name+'.png')
-  img.show()
+#def drawgv_graph_vs (g,layoutid='sfdp',name="out",title="",
+#                  components=None, shape="circle",
+#                  color_scheme="paired12", # https://graphviz.org/doc/info/colors.html
+#                  with_node_labels=False,
+#                  with_edge_labels=False,format='png',
+#                  width=5, height=4, rankdir='LR'):
+#  gv = create_graph_img(g,layoutid,title,components,shape,color_scheme,
+#                  with_node_labels, with_edge_labels, format,
+#                  width, height, rankdir)
+#  gv.render('temp/'+name)
+#  img = Image.open('temp/'+name+'.png')
+#  img.show()
 
 # Desenha dois grafos, lado a lado
 def drawgv_duo (gv1, gv2, title1, title2, width=5, height=4):
-  gv1.render(title1)
-  gv2.render(title2)
-  img1 = plt.imread(title1+'.png')
-  img2 = plt.imread(title2+'.png')
+  gv1.render('temp/'+title1)
+  gv2.render('temp/'+title2)
+  img1 = plt.imread('temp/'+title1+'.png')
+  img2 = plt.imread('temp/'+title2+'.png')
   fig, axs = plt.subplots(1, 2, figsize=(width, height))  # 1 row, 2 columns
 
   axs[0].imshow(img1)
@@ -297,4 +313,12 @@ def drawgv_duo (gv1, gv2, title1, title2, width=5, height=4):
   axs[1].set_title(title2)
 
   plt.tight_layout()
-  plt.show()
+  os.makedirs('temp', exist_ok=True)
+  path = 'temp/' + title1 + '_' + title2 + '.png'
+  fig.savefig(path, bbox_inches='tight')
+  plt.close(fig)
+  img = Image.open(path)
+  if display is None:
+    img.show()
+  else:
+    display(img)
